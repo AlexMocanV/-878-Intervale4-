@@ -1,0 +1,29 @@
+#include <iostream>
+#include <fstream>
+#include <stack>
+std::string nume="intervale4";
+std::ifstream fin(nume+".in");
+std::ofstream fout(nume+".out");
+std::stack<std::pair<int,int>>s;
+int main()
+{
+    int n,nr=1;
+    fin>>n;
+    for(int i=0;i<n;i++)
+    {
+        int x,y;
+        fin>>x>>y;
+        if(s.empty())s.push(std::make_pair(x,y));
+        while(s.empty()==false&&s.top().first<=y&&s.top().second>=x)
+        {
+            s.top().first=std::min(s.top().first,x);
+            s.top().second=std::max(s.top().second,y);
+            x=s.top().first;
+            y=s.top().second;
+            s.pop();
+        }
+        s.push(std::make_pair(x,y));
+    }
+    fout<<s.size();
+    return 0;
+}
